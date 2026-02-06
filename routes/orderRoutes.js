@@ -4,8 +4,8 @@ const crypto = require('crypto');
 const Order = require('../models/Order');
 const Product = require('../models/Snack'); 
 
-const RAZORPAY_KEY_ID = 'rzp_test_SCORIMZ4cVB8Xj';
-const RAZORPAY_KEY_SECRET = '14LoBjoc4MmhnC38tOfxK3Li';
+const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
+const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
 
 const razorpay = new Razorpay({
   key_id: RAZORPAY_KEY_ID,
@@ -13,7 +13,7 @@ const razorpay = new Razorpay({
 });
 
 // --- 📊 ADMIN: Fetch All Orders ---
-// URL: GET http://localhost:5000/api/orders
+// URL: GET https://snack-app-backend.onrender.com/api/orders
 router.get('/', async (req, res) => {
   try {
     // Only show 'Paid' orders to the admin to avoid pending clutter
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 });
 
 // --- 💳 CHECKOUT: Create Razorpay Order ---
-// URL: POST http://localhost:5000/api/orders/checkout
+// URL: POST https://snack-app-backend.onrender.com/api/orders/checkout
 router.post('/checkout', async (req, res) => {
   try {
     const { finalTotal, student, items, subtotal, deliveryCharge } = req.body;
@@ -60,7 +60,7 @@ router.post('/checkout', async (req, res) => {
 });
 
 // --- ✅ VERIFY: Confirm Payment Signature ---
-// URL: POST http://localhost:5000/api/orders/verify
+// URL: POST https://snack-app-backend.onrender.com/api/orders/verify
 router.post('/verify', async (req, res) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
@@ -84,7 +84,7 @@ router.post('/verify', async (req, res) => {
 });
 
 // --- 📦 STATUS: Update Order (e.g., mark as 'Delivered') ---
-// URL: PUT http://localhost:5000/api/orders/:id
+// URL: PUT https://snack-app-backend.onrender.com/api/orders/:id
 router.put('/:id', async (req, res) => {
   try {
     const updatedOrder = await Order.findByIdAndUpdate(
@@ -99,7 +99,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // --- 🗑️ DELETE: Remove Order Record ---
-// URL: DELETE http://localhost:5000/api/orders/:id
+// URL: DELETE https://snack-app-backend.onrender.com/api/orders/:id
 router.delete('/:id', async (req, res) => {
   try {
     await Order.findByIdAndDelete(req.params.id);
