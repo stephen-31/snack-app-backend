@@ -9,12 +9,12 @@ const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
 
-// 🛠️ MIDDLEWARE (Updated for Vercel + Render Connection)
+// 🛠️ MIDDLEWARE (Strict CORS for Production)
+// This allows your specific Vercel apps to send data to this server
 app.use(cors({
   origin: [
     'https://hungerhunt-admin.vercel.app', 
-    'https://hungerhunt-student.vercel.app',
-    'http://localhost:3000' // Keeps local testing working
+    'https://hungerhunt-student.vercel.app'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
